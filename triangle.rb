@@ -14,6 +14,10 @@
 #   about_triangle_project_2.rb
 #
 def triangle(a, b, c)
+  if invalid_arguments(a, b, c)
+    raise TriangleError
+  end
+
   if a == b && b == c
     :equilateral
   elsif a == b || a == c || b == c
@@ -21,6 +25,15 @@ def triangle(a, b, c)
   else
     :scalene
   end
+end
+
+def invalid_arguments(*arguments)
+  arguments.all?(&:zero?) || arguments.any?(&:negative?) || doesnt_satisfy_triangle_inequality?(arguments)
+end
+
+def doesnt_satisfy_triangle_inequality?(edges)
+  a, b, c = edges.sort
+  a + b <=c
 end
 
 # Error class used in part 2.  No need to change this code.
